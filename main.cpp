@@ -20,7 +20,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // constants
-const GLint ELEM_CNT = 32;
+const GLint ELEM_CNT = 8;
 
 // OpenGL objects
 GLuint vertexArray = 0;
@@ -35,7 +35,6 @@ const GLchar* vertexSrc[]={
 "layout(r32i) coherent uniform iimageBuffer imgData;\n",
 
 "void main() {\n",
-	// set vertex ID at texel no gl_VertexID
 	"imageAtomicCompSwap(imgData, gl_VertexID, -1, gl_VertexID);",
 "}\n"
 };
@@ -151,10 +150,10 @@ void on_init()
 	glBindVertexArray(0);
 	glBindBuffer(GL_TEXTURE_BUFFER, buffer);
 	GLint *dataPtr = (GLint*) glMapBuffer(GL_TEXTURE_BUFFER, GL_READ_ONLY);
+	std::cout << "buffer content : ";
 	for(GLint i = 0; i<ELEM_CNT; ++i)
-		if(dataPtr[i] != i)
-			std::cerr << "texel no " << i << " is invalid\n";
-
+		std::cout << dataPtr[i] << ' ';
+	std::cout << std::endl;
 	glUnmapBuffer(GL_TEXTURE_BUFFER);
 
 #ifdef _WIN32
