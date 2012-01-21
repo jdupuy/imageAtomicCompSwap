@@ -35,7 +35,8 @@ const GLchar* vertexSrc[]={
 "layout(r32i) coherent uniform iimageBuffer imgData;\n",
 
 "void main() {\n",
-	"imageAtomicCompSwap(imgData, gl_VertexID, -1, gl_VertexID);",
+	"imageAtomicCompSwap(imgData, gl_VertexID, -1, gl_VertexID);",   // fails
+//	"imageAtomicExchange(imgData, gl_VertexID, gl_VertexID);",       // works
 "}\n"
 };
 
@@ -143,6 +144,7 @@ void on_init()
 	                   0);
 
 	// draw data
+	glUseProgram(program);
 	glBindVertexArray(vertexArray);
 	glDrawArrays(GL_POINTS, 0, ELEM_CNT);
 
@@ -259,7 +261,7 @@ int main(int argc, char** argv)
 
 	// build window
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowSize(800, 400);
+	glutInitWindowSize(800, 600);
 	glutInitWindowPosition(0, 0);
 	glutCreateWindow("unpack");
 
